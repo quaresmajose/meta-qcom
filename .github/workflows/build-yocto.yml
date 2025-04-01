@@ -100,6 +100,7 @@ jobs:
           kas build ci/mirror.yml:ci/${{ matrix.machine }}.yml
 
       - name: Sstate-cache cleanup
+        if: github.event_name == 'push'
         run: |
           export SSTATE_DIR=${CACHE_DIR}/sstate-cache
           export KAS_WORK_DIR=$PWD/../kas
