@@ -21,7 +21,7 @@ jobs:
         run: |
           for r in $(find ${KAS_REPO_REF_DIR}/* -maxdepth 0 -type d); do
             echo "pre-fetch: $r"
-            git -C $r fetch --prune origin '+refs/*:refs/*'
+            git -C $r fetch --force --prune origin '+refs/*:refs/*'
           done
 
   kas-lock:
