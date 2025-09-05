@@ -3,6 +3,15 @@
 header:
   version: 14
 
+# FIXME: until my patch lands in kas
+bblayers_conf_header:
+  FIXME: |
+    # override the default kas BBLAYERS
+    BBLAYERS = " \
+    /repo \
+    /work/poky/meta \
+    /work/poky/meta-poky"
+
 repos:
   oe-core:
     layers:
@@ -17,3 +26,7 @@ repos:
     layers:
       meta:
       meta-poky:
+
+  # FIXME: until my patch lands in kas
+  # Multiple init scripts found (poky vs. oe-core). Resolve ambiguity by removing one of the repos
+  oe-core: null
