@@ -43,9 +43,6 @@ local_conf_header:
     EXTRA_IMAGE_FEATURES = "allow-empty-password empty-root-password allow-root-login"
     IMAGE_ROOTFS_EXTRA_SPACE = "307200"
     WATCHDOG_RUNTIME_SEC:pn-systemd = "30"
-  oom: |
-    BB_NUMBER_THREADS = "${@oe.utils.cpu_count()//2}"
-    PARALLEL_MAKE = "-j ${BB_NUMBER_THREADS}"
 
 machine: unset
 
