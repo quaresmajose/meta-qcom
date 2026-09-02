@@ -7,6 +7,9 @@ on:
 
 permissions: {}
 
+env:
+  CACHE_DIR: /efsx/qli/meta-qcom
+
 jobs:
   sstate-cache-cleanup:
     if: github.repository_owner == 'qualcomm-linux'
@@ -17,5 +20,5 @@ jobs:
         run: |
           # bitbake refreshes the mtime of every sstate file a build uses, so
           # a file older than 15 days was not used by any build in 15 days
-          find /efs/qli/meta-qcom/sstate-cache -type f -mtime +15 -delete
-          find /efs/qli/meta-qcom/sstate-cache -mindepth 1 -type d -empty -delete
+          find "${CACHE_DIR}/sstate-cache" -type f -mtime +15 -delete
+          find "${CACHE_DIR}/sstate-cache" -mindepth 1 -type d -empty -delete
