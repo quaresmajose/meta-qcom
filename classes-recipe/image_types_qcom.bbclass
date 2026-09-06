@@ -53,7 +53,7 @@ deploy_partition_files() {
 
 create_qcomflash_pkg() {
     # esp image
-    [ -n "${QCOM_ESP_FILE}" ] && install -m 0644 ${QCOM_ESP_FILE} efi.bin
+    [ -n "${QCOM_ESP_FILE}" ] && cp -l -L ${QCOM_ESP_FILE} efi.bin
 
     # dtb image
     if [ -n "${QCOM_DTB_DEFAULT}" ] && \
