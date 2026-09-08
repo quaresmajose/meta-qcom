@@ -132,21 +132,25 @@ python do_qcom_img_deploy() {
         if rootfs is None:
             bb.fatal("QCOM_BOOTIMG_ROOTFS is undefined")
 
-        output = make_image("boot-%s-%s.img", rootfs)
+        template = "boot-%s-%s-ext-dtb.img" if external else "boot-%s-%s.img"
+        output = make_image(template, rootfs)
         if not os.path.exists(output_img):
             os.symlink(os.path.basename(output), output_img)
 
         if initrd:
-            make_initramfs_image("boot-%s-%s-%s.img", rootfs, initrd, d.getVar("INITRAMFS_IMAGE"))
+            template = "boot-%s-%s-%s-ext-dtb.img" if external else "boot-%s-%s-%s.img"
+            make_initramfs_image(template, rootfs, initrd, d.getVar("INITRAMFS_IMAGE"))
 
         sd_rootfs = getVarDTB("SD_QCOM_BOOTIMG_ROOTFS")
         if sd_rootfs:
-            output = make_image("boot-sd-%s-%s.img", sd_rootfs)
+            template = "boot-sd-%s-%s-ext-dtb.img" if external else "boot-sd-%s-%s.img"
+            output = make_image(template, sd_rootfs)
             if not os.path.exists(output_sd_img):
                 os.symlink(os.path.basename(output), output_sd_img)
 
             if initrd:
-                make_initramfs_image("boot-sd-%s-%s-%s.img", rootfs, initrd, d.getVar("INITRAMFS_IMAGE"))
+                template = "boot-sd-%s-%s-%s-ext-dtb.img" if external else "boot-sd-%s-%s-%s.img"
+                make_initramfs_image(template, rootfs, initrd, d.getVar("INITRAMFS_IMAGE"))
 
     if not d.getVar("QCOM_BOOTIMG_DEVICETREE") and not d.getVar("KERNEL_DEVICETREE"):
         bb.fatal("Either QCOM_BOOTIMG_DEVICETREE or KERNEL_DEVICETREE needed for linux-qcom-bootimg.bbclass")
