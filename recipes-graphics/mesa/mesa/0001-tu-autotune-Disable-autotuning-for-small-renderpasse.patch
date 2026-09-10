@@ -1,0 +1,39 @@
+From c6d56654a06038c93b8ad8d8e9ad98de072d0465 Mon Sep 17 00:00:00 2001
+From: Dhruv Mark Collins <mark@igalia.com>
+Date: Thu, 9 Oct 2025 13:56:46 +0000
+Subject: [PATCH] tu/autotune: Disable autotuning for small renderpasses by
+ default
+
+Tuning these small renderpasses is difficult due to their high
+variability across command buffers and low impact on overall performance
+in most cases. This change disables autotuning for renderpasses with
+fewer than 5 draw calls.
+
+Upstream-Status: Backport [https://gitlab.freedesktop.org/mesa/mesa/-/commit/bf2777c0130954f969c5a1038a01f94ec2d1ac63]
+Signed-off-by: Dhruv Mark Collins <mark@igalia.com>
+---
+ src/freedreno/vulkan/tu_autotune.cc | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/src/freedreno/vulkan/tu_autotune.cc b/src/freedreno/vulkan/tu_autotune.cc
+index df969834a37..3fb1f0f7cae 100644
+--- a/src/freedreno/vulkan/tu_autotune.cc
++++ b/src/freedreno/vulkan/tu_autotune.cc
+@@ -579,6 +579,14 @@ tu_autotune_use_bypass(struct tu_autotune *at,
+    if (!at->enabled || simultaneous_use)
+       return fallback_use_bypass(pass, framebuffer, cmd_buffer);
+ 
++   /* These smaller RPs with few draws are too difficult to create a balanced hash for that can independently identify
++    * them while not being so unique to not properly identify them across CBs. They're generally insigificant outside of
++    * a few edge cases such as during deferred rendering G-buffer passes, as we don't have a good way to deal with those
++    * edge cases yet, we just disable the autotuner for small RPs entirely for now.
++    */
++   if (cmd_buffer->state.rp.drawcall_count < 5)
++      return true;
++
+    /* We use 64bit hash as a key since we don't fear rare hash collision,
+     * the worst that would happen is sysmem being selected when it should
+     * have not, and with 64bit it would be extremely rare.
+-- 
+2.34.1
+
