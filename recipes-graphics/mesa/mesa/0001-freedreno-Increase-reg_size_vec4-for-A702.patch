@@ -1,0 +1,35 @@
+From e63bbb794fd7935e8a5d0d7f7fe9c05e65d990f8 Mon Sep 17 00:00:00 2001
+From: Valentine Burley <valentine.burley@collabora.com>
+Date: Thu, 16 Jul 2026 08:08:45 +0200
+Subject: [PATCH] freedreno: Increase reg_size_vec4 for A702
+
+A702 was inheriting reg_size_vec4 = 48 from a6xx_gen1_low, which was
+sized for A610's 64-thread wave. A702 uses a 16-thread wave, so the
+inherited value underestimated the capacity the compiler should assume
+per wave.
+
+Upstream-Status: Backport [https://gitlab.freedesktop.org/mesa/mesa/-/commit/6a282e8f18a16c3445ce3498ecd5c09667e97555]
+
+Fixes: 639d7946c71 ("freedreno: Add initial A702 support")
+Signed-off-by: Valentine Burley <valentine.burley@collabora.com>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/43038>
+---
+ src/freedreno/common/freedreno_devices.py |   1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 src/freedreno/ci/freedreno-a702-fails.txt
+
+diff --git a/src/freedreno/common/freedreno_devices.py b/src/freedreno/common/freedreno_devices.py
+index 742fd1f1df9..8e51e07f23c 100644
+--- a/src/freedreno/common/freedreno_devices.py
++++ b/src/freedreno/common/freedreno_devices.py
+@@ -893,6 +893,7 @@ add_gpus([
+     ], A6xxGPUInfo(
+         CHIP.A6XX, # NOT a mistake!
+         [a6xx_base, a6xx_gen1_low, GPUProps(
++            reg_size_vec4 = 64,
+             has_cp_reg_write = False,
+             has_gmem_fast_clear = True,
+             sysmem_per_ccu_depth_cache_size = 8 * 1024, # ??????
+-- 
+2.43.0
+
