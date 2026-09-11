@@ -256,10 +256,10 @@ jobs:
           - name: qcom-distro-catchall
             yamlfile: ':ci/qcom-distro-catchall.yml'
           - name: debug
-            yamlfile: ':ci/qcom-distro-catchall.yml:ci/debug.yml'
-            profile: full
+            yamlfile: ':ci/qcom-distro-catchall.yml:ci/debug.yml:ci/nospdx.yml'
+            profile: weekly
           - name: performance
-            yamlfile: ':ci/qcom-distro-catchall.yml:ci/performance.yml'
+            yamlfile: ':ci/qcom-distro-catchall.yml:ci/performance.yml:ci/nospdx.yml'
             profile: full
         kernel:
           - type: default
@@ -279,6 +279,14 @@ jobs:
                 type: rt-6.18-distro-kvm
           - distro:
                 name: qcom-distro-catchall
+            kernel:
+                type: rt-6.18-distro-kvm
+          - distro:
+                name: debug
+            kernel:
+                type: rt-6.18-distro-kvm
+          - distro:
+                name: performance
             kernel:
                 type: rt-6.18-distro-kvm
           # Exclude jobs from compile_warm_up
