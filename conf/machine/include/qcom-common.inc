@@ -29,6 +29,7 @@ KERNEL_DEVICETREE:append:pn-linux-qcom = " ${LINUX_QCOM_KERNEL_DEVICETREE}"
 KERNEL_DEVICETREE:append:pn-linux-qcom-next = " ${LINUX_QCOM_KERNEL_DEVICETREE}"
 KERNEL_DEVICETREE:append:pn-linux-qcom-rt = " ${LINUX_QCOM_KERNEL_DEVICETREE}"
 KERNEL_DEVICETREE:append:pn-linux-qcom-next-rt = " ${LINUX_QCOM_KERNEL_DEVICETREE}"
+KERNEL_DEVICETREE:append:pn-linux-yocto-fitimage = "${@' ' + (d.getVar('LINUX_QCOM_KERNEL_DEVICETREE') or '') if (d.getVar('PREFERRED_PROVIDER_virtual/kernel') or '').startswith('linux-qcom') else ''}"
 
 PREFERRED_PROVIDER_android-tools-conf = "android-tools-conf-configfs"
 
