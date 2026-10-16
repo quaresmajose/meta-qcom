@@ -59,7 +59,7 @@ echo $CMD
 eval $CMD
 
 _ncdu(){
-    du -sk $1/*/* | \
+    du -sk $1/*/* 2>/dev/null | \
     sort -rn | \
     sed "s/^/$2 /" | \
     awk '{ \
