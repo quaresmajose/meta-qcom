@@ -26,6 +26,9 @@ SRCREV ?= "143c1172c89b56ba26b8c9fd7bdc63cb04bb79d0"
 SRCBRANCH ?= "nobranch=1"
 SRCBRANCH:class-devupstream ?= "branch=qcom-6.18.y"
 
+require linux-qcom-localversion.inc
+KERNEL_LOCALVERSION ?= "${@qcom_kernel_localversion(d)}"
+
 SRC_URI = " \
     git://github.com/qualcomm-linux/kernel.git;${SRCBRANCH};protocol=https \
     file://0001-tools-use-basename-to-identify-file-in-gen-mach-type.patch \
