@@ -23,7 +23,8 @@ SRC_URI[camxtest.sha256sum] = "81f16efeda9f965ad7d44767344f34cda457aafcdf3737420
 
 S = "${UNPACKDIR}"
 
-DEPENDS += "glib-2.0 fastrpc protobuf-camx libxml2 qmi-framework sensinghub qcom-sensors-binaries"
+DEPENDS += "glib-2.0 fastrpc protobuf libxml2 qmi-framework sensinghub qcom-sensors-binaries"
+
 DEPENDS += " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/egl virtual/libgles2', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencl', 'virtual/libopencl1', '', d)} \
